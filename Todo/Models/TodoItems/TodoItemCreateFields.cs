@@ -10,7 +10,7 @@ namespace Todo.Models.TodoItems
         public string Title { get; set; }
         public string TodoListTitle { get; set; }
 
-        [Display(Name = "Email")]
+        [Display(Name = "UserName")]
         public string ResponsiblePartyId { get; set; }
         public Importance Importance { get; set; } = Importance.Medium;
 
