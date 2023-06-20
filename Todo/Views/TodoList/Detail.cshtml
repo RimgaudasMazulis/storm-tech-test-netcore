@@ -9,6 +9,11 @@
 
 <h2>@ViewData["Title"]</h2>
 
+<div class="col-md-4 text-right">
+    <label for="hideDoneItems">Hide done items</label>
+    <input type="checkbox" id="hideDoneItems" />
+</div>
+
 <div class="col-md-6">
 
     <ul class="list-group">
@@ -35,7 +40,9 @@
                     break;
             }
 
-            <li class="list-group-item @contextualClass">
+            string isDone = item.IsDone ? "isDone" : string.Empty;
+
+            <li class="list-group-item @contextualClass @isDone">
                 
                 <div class="row">
 
@@ -67,3 +74,7 @@
         }
     </ul>
 </div>
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/toDoList/details.js"></script>
+}
