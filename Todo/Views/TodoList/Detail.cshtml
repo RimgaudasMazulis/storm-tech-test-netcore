@@ -9,9 +9,18 @@
 
 <h2>@ViewData["Title"]</h2>
 
-<div class="col-md-4 text-right">
-    <label for="hideDoneItems">Hide done items</label>
-    <input type="checkbox" id="hideDoneItems" />
+<div class="col-md-6">
+     <ul class="list-group">
+        <li class="list-group-item">
+            <label for="hideDoneItems">Hide done items</label>
+            <input type="checkbox" id="hideDoneItems" />
+        </li>
+        <li class="list-group-item">
+            <a asp-action="Detail" asp-controller="TodoList" asp-route-todoListId="@Model.TodoListId" asp-route-orderBy="@OrderBy.Rank">
+                <strong>Order by rank</strong>
+            </a>
+        </li>
+    </ul>
 </div>
 
 <div class="col-md-6">
@@ -24,7 +33,7 @@
             </a>
         </li>
 
-        @foreach (var item in Model.Items.OrderBy(o => o.Importance))
+        @foreach (var item in Model.Items)
         {
             string contextualClass;
             switch (item.Importance)
