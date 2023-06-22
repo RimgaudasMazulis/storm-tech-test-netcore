@@ -16,107 +16,23 @@
             <input type="checkbox" id="hideDoneItems" />
         </li>
         <li class="list-group-item">
-            <a asp-action="Detail" asp-controller="TodoList" asp-route-todoListId="@Model.TodoListId" asp-route-orderBy="@OrderBy.Rank">
-                <strong>Order by rank</strong>
-            </a>
+            <button id="orderByRankBtn" type="button" class="btn btn-primary">
+                Order by rank
+            </button>
         </li>
     </ul>
 </div>
 
-<div class="col-md-6">
+@{
+    Html.RenderPartialAsync("~/Views/TodoItem/CreateTodoItemModal.cshtml", Model.CreateTodoItemFields);
+}
 
-    <div class="modal fade" id="addNewItemModal" tabindex="-1" role="dialog" aria-labelledby="addNewItemModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="addNewItemModalLabel">Add new item</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
+@Html.HiddenFor(o => o.TodoListId);
 
-                    @{
-                        //Html.RenderPartialAsync("~/Views/TodoItem/Create.cshtml", Model.Fields);
-                    }
+<div class="col-md-6">   
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    @{
+        Html.RenderPartialAsync("~/Views/TodoList/DetailListPartial.cshtml", Model);
+    }
 
-    <ul class="list-group">
-
-        <li class="list-group-item">
-    @*        <a asp-action="Create" asp-controller="TodoItem" asp-route-todoListId="@Model.TodoListId">
-                <strong>Add New Item</strong>
-            </a>*@
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewItemModal">
-                Add New Item
-            </button>
-        </li>        
-
-        @foreach (var item in Model.Items)
-        {
-            string contextualClass;
-            switch (item.Importance)
-            {
-                case Importance.High:
-                    contextualClass = "list-group-item-danger";
-                    break;
-                case Importance.Low:
-                    contextualClass = "list-group-item-info";
-                    break;
-                default:
-                    contextualClass = "";
-                    break;
-            }
-
-            string isDone = item.IsDone ? "isDone" : string.Empty;
-
-            <li class="list-group-item @contextualClass @isDone">
-                
-                <div class="row">
-
-                <div class="col-md-8">
-                    <a asp-action="Edit" asp-controller="TodoItem" asp-route-todoItemId="@item.TodoItemId">
-
-                        @if (item.IsDone)
-                        {
-                            <s>@item.Title</s>
-                        }
-                        else
-                        {
-                            <text>@item.Title</text>
-                        }
-                    </a>
-                </div>
-
-                <div class="col-md-4 text-right" >
-                    <small>
-                        @item.ResponsibleParty.UserName
-
-                        <div id="username_@item.TodoItemId"></div>
-
-                        <script type="text/javascript" src="~/js/toDoList/details.js"></script>
-
-                        @{
-                            var email = item.ResponsibleParty.Email;
-                        }
-
-                        <script>
-                            getGravatarProfile('@email', '@item.TodoItemId');
-                        </script>
-
-                        <img src="https://www.gravatar.com/avatar/@Gravatar.GetHash(item.ResponsibleParty.Email)?s=30"/>
-                        
-                    </small>
-                </div>
-                </div>
-
-            </li>
-        }
-    </ul>
 </div>

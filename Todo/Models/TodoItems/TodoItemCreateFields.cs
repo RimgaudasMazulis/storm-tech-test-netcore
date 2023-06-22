@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 using Todo.Data.Entities;
 
 namespace Todo.Models.TodoItems

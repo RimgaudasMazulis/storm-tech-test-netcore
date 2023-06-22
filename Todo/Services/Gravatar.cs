@@ -35,7 +35,7 @@ namespace Todo.Services
                 try
                 {
                     client.BaseAddress = new Uri(baseAddress);
-                    HttpResponseMessage response = await client.GetAsync($"/{Gravatar.GetHash(email)}.json");
+                    HttpResponseMessage response = await client.GetAsync($"/{GetHash(email)}.json");
 
                     if (response.IsSuccessStatusCode)
                     {

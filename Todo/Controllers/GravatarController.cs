@@ -1,32 +1,33 @@
-﻿using System.Threading;
+﻿using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Todo.Data;
-using Todo.Data.Entities;
-using Todo.EntityModelMappers.TodoLists;
+using Todo.Interfaces.Cache;
 using Todo.Models.Gravatar;
-using Todo.Models.TodoLists;
 using Todo.Services;
 
 namespace Todo.Controllers
 {
     public class GravatarController : Controller
     {
-        private readonly ApplicationDbContext dbContext;
-        private readonly IUserStore<IdentityUser> userStore;
-
-        public GravatarController(ApplicationDbContext dbContext, IUserStore<IdentityUser> userStore)
+        private readonly ICache cache;
+        public GravatarController(ICache cache)
         {
-            this.dbContext = dbContext;
-            this.userStore = userStore;
+            this.cache = cache;
         }
 
         [HttpGet]
         public async Task<GravatarProfile> GetProfile(string email)
         {
-            return await Gravatar.GetProfile("https://www.gravatar.com", email);
+            var profile = cache.Get<GravatarProfile>(email);
+
+            if (profile == null)
+            {
+                profile = await Gravatar.GetProfile("https://www.gravatar.com", email);
+                cache.Set(email, profile, TimeSpan.FromHours(1));
+            }
+
+            return profile;
         }        
     }
 }

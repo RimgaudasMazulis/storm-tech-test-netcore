@@ -1,14 +1,36 @@
 $(document).ready(function () {
-
     $('#hideDoneItems').change(function () {
         if (this.checked) {
             $('.isDone').hide();
         } else {
             $('.isDone').show();
         }
-    });    
+    });   
 
+    $('#showAddTodoModalBtn').click(function () {
+        $('#addNewItemModal').modal('show');
+    });
+
+    $('#orderByRankBtn').off('click').click(function () {
+        var todoListId = $('#TodoListId').val();
+        orderListByRank(todoListId);
+    }); 
 });
+
+function orderListByRank(todoListId) {
+    $.ajax({
+        url: '/TodoList/GetDetailsByRank',
+        type: 'GET',
+        data: {
+            todoListId: todoListId
+        },
+        success: function (response) {
+            $("#todo-list").html(response);
+        },
+        error: function (xhr, status, error) {
+        }
+    });
+}
 
 function getGravatarProfile(email, todoItemId) {
     $.ajax({
@@ -22,7 +44,6 @@ function getGravatarProfile(email, todoItemId) {
             }
         },
         error: function (xhr, status, error) {
-            // Handle the error here
         }
     });
 }

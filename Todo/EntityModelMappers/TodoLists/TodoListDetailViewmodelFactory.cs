@@ -9,20 +9,14 @@ namespace Todo.EntityModelMappers.TodoLists
     {
         public static TodoListDetailViewmodel Create(TodoList todoList, OrderBy orderBy)
         {
-            var items = todoList.Items.Select(TodoItemSummaryViewmodelFactory.Create).ToList();
+            var items = todoList.Items
+                .Select(TodoItemSummaryViewmodelFactory.Create)
+                .OrderBy(orderBy)
+                .ToList();
 
-            switch (orderBy)
-            {
-                case OrderBy.Rank:
-                    items = items.OrderBy(o => o.Rank).ToList();
-                    break;
-                case OrderBy.Importance:
-                default:
-                    items = items.OrderBy(o => o.Importance).ToList();
-                    break;
-            }
+            var createTodoItemFields = TodoItemCreateFieldsFactory.Create(todoList, todoList.Owner.Id);
 
-            return new TodoListDetailViewmodel(todoList.TodoListId, todoList.Title, items);
+            return new TodoListDetailViewmodel(todoList.TodoListId, todoList.Title, items, createTodoItemFields);
         }
     }
 }

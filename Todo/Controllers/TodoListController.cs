@@ -39,6 +39,14 @@ namespace Todo.Controllers
         }
 
         [HttpGet]
+        public IActionResult GetDetailsByRank(int todoListId)
+        {
+            var todoList = dbContext.SingleTodoList(todoListId);
+            var viewmodel = TodoListDetailViewmodelFactory.Create(todoList, OrderBy.Rank);
+            return PartialView("DetailListPartial", viewmodel);
+        }
+
+        [HttpGet]
         public IActionResult Create()
         {
             return View(new TodoListFields());
