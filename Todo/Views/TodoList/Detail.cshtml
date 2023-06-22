@@ -24,7 +24,7 @@
 </div>
 
 @{
-    Html.RenderPartialAsync("~/Views/TodoItem/CreateTodoItemModal.cshtml", Model.CreateTodoItemFields);
+    await Html.RenderPartialAsync("~/Views/TodoItem/CreateTodoItemModal.cshtml", Model.CreateTodoItemFields);
 }
 
 @Html.HiddenFor(o => o.TodoListId);
@@ -32,7 +32,7 @@
 <div class="col-md-6">   
 
     @{
-        Html.RenderPartialAsync("~/Views/TodoList/DetailListPartial.cshtml", Model);
+        await Html.RenderPartialAsync("~/Views/TodoList/DetailListPartial.cshtml", Model);
     }
 
 </div>
